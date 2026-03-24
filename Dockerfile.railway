@@ -32,13 +32,28 @@ RUN pnpm turbo build
 
 # Stage 4: Production API server (final stage — Railway builds this)
 FROM base
+# Copy built API code
 COPY --from=builder /app/apps/api/dist ./dist
+COPY --from=builder /app/apps/api/package.json ./apps/api/package.json
+# Copy all node_modules (pnpm hoisted + workspace packages)
 COPY --from=builder /app/node_modules ./node_modules
-# Include DB schema + drizzle config for migrations
+COPY --from=builder /app/apps/api/node_modules ./apps/api/node_modules
+COPY --from=builder /app/packages/shared/node_modules ./packages/shared/node_modules
+COPY --from=builder /app/packages/db/node_modules ./packages/db/node_modules
+COPY --from=builder /app/packages/core/node_modules ./packages/core/node_modules
+# Copy built workspace packages (needed by server.js)
+COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
+COPY --from=builder /app/packages/shared/package.json ./packages/shared/package.json
+COPY --from=builder /app/packages/db/dist ./packages/db/dist
+COPY --from=builder /app/packages/db/package.json ./packages/db/package.json
+COPY --from=builder /app/packages/core/dist ./packages/core/dist
+COPY --from=builder /app/packages/core/package.json ./packages/core/package.json
+# DB schema for migrations
 COPY --from=builder /app/packages/db/src ./packages/db/src
 COPY --from=builder /app/packages/db/drizzle.config.ts ./packages/db/drizzle.config.ts
-COPY --from=builder /app/packages/db/package.json ./packages/db/package.json
-COPY --from=builder /app/packages/db/node_modules ./packages/db/node_modules
+# Workspace config for pnpm resolution
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 RUN mkdir -p /data/media
 EXPOSE 3000
 CMD ["sh", "-c", "cd packages/db && npx drizzle-kit push --force && cd /app && node dist/server.js"]
