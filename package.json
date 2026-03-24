@@ -1,0 +1,25 @@
+{
+  "name": "open-posting",
+  "private": true,
+  "version": "1.0.0",
+  "description": "AI-agent-native social media access layer",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test:unit",
+    "test:integration": "turbo test:integration",
+    "db:generate": "pnpm --filter @open-posting/db generate",
+    "db:migrate": "pnpm --filter @open-posting/db migrate",
+    "db:push": "pnpm --filter @open-posting/db push",
+    "clean": "turbo clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^2.8.20"
+  }
+}

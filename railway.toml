@@ -1,0 +1,23 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "node dist/server.js"
+healthcheckPath = "/health"
+healthcheckTimeout = 10
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[[services]]
+name = "api"
+dockerfile = "Dockerfile"
+target = "api"
+
+[[services]]
+name = "postgres"
+plugin = "postgresql"
+
+[[services]]
+name = "redis"
+plugin = "redis"

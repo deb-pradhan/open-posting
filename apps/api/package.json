@@ -1,0 +1,29 @@
+{
+  "name": "@open-posting/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file=../../.env src/server.ts",
+    "build": "tsup src/server.ts --format esm --clean",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@open-posting/core": "workspace:*",
+    "@open-posting/db": "workspace:*",
+    "@open-posting/shared": "workspace:*",
+    "@hono/node-server": "^1.13.0",
+    "hono": "^4.7.0",
+    "ioredis": "^5.4.0",
+    "zod": "^3.24.0",
+    "ulid": "^2.3.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

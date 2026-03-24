@@ -1,0 +1,30 @@
+{
+  "name": "@open-posting/db",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "push": "drizzle-kit push",
+    "studio": "drizzle-kit studio",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.38.0",
+    "postgres": "^3.4.0",
+    "ulid": "^2.3.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.30.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.0",
+    "@open-posting/shared": "workspace:*"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@open-posting/core",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "vitest run",
+    "lint": "eslint src/",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@open-posting/shared": "workspace:*",
+    "@open-posting/db": "workspace:*",
+    "drizzle-orm": "^0.38.0",
+    "bullmq": "^5.30.0",
+    "ioredis": "^5.4.0",
+    "pino": "^9.6.0",
+    "ulid": "^2.3.0",
+    "bcrypt": "^5.1.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "@types/bcrypt": "^5.0.0"
+  }
+}
