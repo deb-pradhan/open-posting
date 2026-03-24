@@ -34,9 +34,14 @@ RUN pnpm turbo build
 FROM base AS api
 COPY --from=builder /app/apps/api/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
+# Include DB schema + drizzle config for migrations
+COPY --from=builder /app/packages/db/src ./packages/db/src
+COPY --from=builder /app/packages/db/drizzle.config.ts ./packages/db/drizzle.config.ts
+COPY --from=builder /app/packages/db/package.json ./packages/db/package.json
+COPY --from=builder /app/packages/db/node_modules ./packages/db/node_modules
 RUN mkdir -p /data/media
 EXPOSE 3000
-CMD ["node", "dist/server.js"]
+CMD ["sh", "-c", "cd packages/db && npx drizzle-kit push --force && cd /app && node dist/server.js"]
 
 # Stage 5: MCP server
 FROM base AS mcp
